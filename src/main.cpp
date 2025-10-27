@@ -7,6 +7,8 @@ using namespace std;
 
 int main() {
     HotelInventory inventory;
+    double dailyRevenue = 0.0;
+    double cumulativeRevenue = 0.0;
 
     bool running = true;
     while (running) {
@@ -32,14 +34,15 @@ int main() {
             if (inventory.reserveRoomByIndex(categoryIndex)) {
                 cout << "Reserved one " << chosenCategory.name
                           << " for $" << chosenCategory.nightlyRate << endl;
+                dailyRevenue += chosenCategory.nightlyRate;
+                cumulativeRevenue += chosenCategory.nightlyRate;
             } else {
                 cout << "No rooms remaining in that category." << endl;
             }
             break;
         }
         case 3:
-            inventory.displayTotals(revenueTracker.getDailyRevenue(),
-                                    revenueTracker.getCumulativeRevenue());
+            inventory.displayTotals(dailyRevenue, cumulativeRevenue);
             break;
         case 4:
             running = false;

@@ -18,10 +18,10 @@ public:
     void displayTotals(double dailyRevenue, double cumulativeRevenue);
 
     // Helper to validate requested indices before a reservation.
-    bool isValidCategoryIndex(int categoryIndex);
+    bool isValidCategoryIndex(int categoryIndex) const;
 
     // Accessor used by the menu to obtain read-only view of categories.
-    const std::vector<RoomCategory>& getCategories();
+    const std::vector<RoomCategory>& getCategories() const;
 
 private:
     std::vector<RoomCategory> categories;
