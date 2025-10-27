@@ -3,6 +3,8 @@
 #include <iostream>
 #include <iomanip>
 
+using namespace std;
+
 HotelInventory::HotelInventory() {
     initializeInventory();
 }
@@ -46,11 +48,15 @@ void HotelInventory::initializeInventory() {
 }
 
 void HotelInventory::displayInventory() const {
-    std::cout << "\nCurrent Room Inventory" << std::endl;
-    std::cout << "----------------------" << std::endl;
+    cout << "\nCurrent Room Inventory" << std::endl;
+    cout << "----------------------" << std::endl;
 
-    for (std::size_t i = 0; i < categories.size(); ++i) {
-        
+    for (size_t i = 0; i < categories.size(); ++i) {
+         const RoomCategory& category = categories[i];
+
+        cout << (i + 1) << ". " << category.name << " (" << category.description << ")" << endl;
+        cout << "   Rate: $" << fixed << setprecision(2) << category.nightlyRate << " per night" << endl;
+        cout << "   Available: " << category.getAvailableRooms() << " of " << category.totalRooms << " rooms" << endl;
     }
 }
 
