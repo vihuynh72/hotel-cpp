@@ -47,9 +47,9 @@ void HotelInventory::initializeInventory() {
     categories.push_back(penthouse);
 }
 
-void HotelInventory::displayInventory() const {
-    cout << "\nCurrent Room Inventory" << std::endl;
-    cout << "----------------------" << std::endl;
+void HotelInventory::displayInventory() {
+    cout << "\nCurrent Room Inventory" << endl;
+    cout << "----------------------" << endl;
 
     for (size_t i = 0; i < categories.size(); ++i) {
          const RoomCategory& category = categories[i];
@@ -74,8 +74,19 @@ bool HotelInventory::reserveRoomByIndex(int categoryIndex) {
     return true;
 }
 
-void HotelInventory::displayTotals(double dailyRevenue, double cumulativeRevenue) const {
-   
+void HotelInventory::displayTotals(double dailyRevenue, double cumulativeRevenue) {
+    cout << "\nDaily Summary" << endl;
+    cout << "-------------" << endl;
+
+    for (size_t i = 0; i < categories.size(); ++i) {
+        RoomCategory& category = categories[i];
+        cout << category.name << ": " << category.reservedRooms
+                  << " reserved, " << category.getAvailableRooms() << " remaining" << endl;
+    }
+
+    cout << fixed << setprecision(2);
+    cout << "Revenue (today): $" << dailyRevenue << endl;
+    cout << "Revenue (since day one): $" << cumulativeRevenue << endl;
 }
 
 bool HotelInventory::isValidCategoryIndex(int categoryIndex) const {
