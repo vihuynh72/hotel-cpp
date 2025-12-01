@@ -2,31 +2,45 @@
 #define HOTELINVENTORY_H
 
 #include <vector>
-#include "RoomCategory.h"
+#include <string>
+#include "Room.h"
 
 class HotelInventory {
 public:
     HotelInventory();
+    ~HotelInventory();
 
-    // Presents all room categories and their remaining counts
-    void displayInventory();
+    // Initialize rooms for a new day or load from file
+    void setDate(std::string date);
 
-    // Reserve a single room in the category specified by index. Returns true if successful, false if no rooms remain.
-    bool reserveRoomByIndex(int categoryIndex);
+    // Display status of all rooms
+    void displayStatus();
 
-    // Shows a summary suitable for the manager's daily report.
-    void displayTotals(double dailyRevenue, double cumulativeRevenue);
+    // Reserve a specific room
+    bool reserveRoom(int roomNumber, std::string guestName);
 
-    // Helper to validate requested indices before a reservation.
-    bool isValidCategoryIndex(int categoryIndex) const;
+    // Check out a room
+    bool checkoutRoom(int roomNumber);
 
-    // Accessor used by the menu to obtain read-only view of categories.
-    const std::vector<RoomCategory>& getCategories() const;
+    // Save current data to file
+    void saveToFile();
+
+    // Delete the data file for the current date
+    void deleteDataFile();
+
+    // Get room by number
+    Room* getRoom(int roomNumber);
+
+    // Display totals/summary
+    void displaySummary();
 
 private:
-    std::vector<RoomCategory> categories;
+    std::vector<Room*> rooms;
+    std::string currentDate;
 
-    void initializeInventory(); // Sets up the starting counts and rates.
+    void initializeRooms();
+    void loadFromFile();
+    void clearReservations();
 };
 
 #endif // HOTELINVENTORY_H
