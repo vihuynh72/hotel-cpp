@@ -1,19 +1,28 @@
 #include <iostream>
 #include <limits>
+#include <iomanip>
 #include "UI.h"
 
 using namespace std;
 
-void displayMenu() {
-    cout << "\nHotel Reservation Desk" << endl;
-    cout << "----------------------" << endl;
-    cout << "1. View Room Status" << endl;
-    cout << "2. Reserve a Room" << endl;
-    cout << "3. View Daily Summary" << endl;
-    cout << "4. Save Data" << endl;
-    cout << "5. Change Date" << endl;
-    cout << "6. Exit" << endl;
-    cout << "Select an option: ";
+void displayMenu(string date) {
+    cout << "\n";
+    cout << "  __________________________________________________ " << endl;
+    cout << " |                                                  |" << endl;
+    cout << " |           HOTEL RESERVATION SYSTEM               |" << endl;
+    cout << " |__________________________________________________|" << endl;
+    cout << " |                                                  |" << endl;
+    cout << " |  CURRENT DATE: " << left << setw(34) << date << "|" << endl;
+    cout << " |__________________________________________________|" << endl;
+    cout << " |                                                  |" << endl;
+    cout << " |  1. [ VIEW ]   Room Status Dashboard             |" << endl;
+    cout << " |  2. [ BOOK ]   Make a Reservation                |" << endl;
+    cout << " |  3. [ INFO ]   Daily Financial Report            |" << endl;
+    cout << " |  4. [ SAVE ]   Save Current Data                 |" << endl;
+    cout << " |  5. [ DATE ]   Change Date (Auto-Save)           |" << endl;
+    cout << " |  6. [ EXIT ]   Exit System                       |" << endl;
+    cout << " |__________________________________________________|" << endl;
+    cout << "\n  >> Select an option: ";
 }
 
 int readIntInput() {

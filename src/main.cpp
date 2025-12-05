@@ -7,14 +7,16 @@ using namespace std;
 int main() {
     HotelInventory hotel;
     
-    cout << "Welcome to the Hotel Reservation System." << endl;
+    cout << "\n==================================================" << endl;
+    cout << "      WELCOME TO THE HOTEL RESERVATION SYSTEM     " << endl;
+    cout << "==================================================" << endl;
     cout << "Please enter today's date (e.g., 2023-10-27): ";
     string date = readStringInput();
     hotel.setDate(date);
 
     bool running = true;
     while (running) {
-        displayMenu();
+        displayMenu(date);
         int choice = readIntInput();
 
         switch (choice) {
@@ -27,16 +29,16 @@ int main() {
             
             Room* room = hotel.getRoom(roomNum);
             if (room == nullptr) {
-                cout << "Invalid Room Number." << endl;
+                cout << ">> ERROR: Invalid Room Number." << endl;
             } else if (room->isOccupied()) {
-                cout << "Room " << roomNum << " is already occupied by " << room->getGuestName() << "." << endl;
+                cout << ">> ERROR: Room " << roomNum << " is already occupied by " << room->getGuestName() << "." << endl;
             } else {
                 cout << "Enter Guest Name: ";
                 string guestName = readStringInput();
                 if (hotel.reserveRoom(roomNum, guestName)) {
-                    cout << "Reservation successful for " << guestName << " in Room " << roomNum << "." << endl;
+                    cout << ">> SUCCESS: Reservation confirmed for " << guestName << " in Room " << roomNum << "." << endl;
                 } else {
-                    cout << "Reservation failed." << endl;
+                    cout << ">> ERROR: Reservation failed." << endl;
                 }
             }
             break;
@@ -54,7 +56,7 @@ int main() {
             hotel.setDate(date);
             break;
         case 6:
-            cout << "Do you want to delete the data file for this date? (y/n): ";
+            cout << "\n  >> Do you want to DELETE the data file for " << date << "? (y/n): ";
             {
                 string response = readStringInput();
                 if (response == "y" || response == "Y") {

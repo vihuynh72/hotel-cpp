@@ -84,10 +84,14 @@ void HotelInventory::saveToFile() {
 
 void HotelInventory::deleteDataFile() {
     string filename = "data/" + currentDate + ".txt";
-    if (remove(filename.c_str()) == 0) {
-        cout << "File " << filename << " deleted successfully." << endl;
+    if (fs::exists(filename)) {
+        if (fs::remove(filename)) {
+            cout << ">> SUCCESS: Data file for " << currentDate << " has been deleted." << endl;
+        } else {
+            cout << ">> ERROR: Could not delete data file." << endl;
+        }
     } else {
-        cout << "File " << filename << " not found or could not be deleted." << endl;
+        cout << ">> INFO: No saved data file found. Session data discarded." << endl;
     }
 }
 
@@ -153,23 +157,73 @@ bool HotelInventory::checkoutRoom(int roomNumber) {
 }
 
 void HotelInventory::displayStatus() {
-    cout << "\nRoom Status for " << currentDate << endl;
-    cout << "--------------------------------------------------" << endl;
-    cout << left << setw(10) << "Room" << setw(25) << "Type" << setw(10) << "Rate" << "Guest" << endl;
-    cout << "--------------------------------------------------" << endl;
+    cout << "\n==================================================================================" << endl;
+    cout << "                            HOTEL OCCUPANCY DASHBOARD: " << currentDate << endl;
+    cout << "==================================================================================" << endl;
     
+    // 1. Standard Courtyard (101-170)
+    cout << "\n [ STANDARD COURTYARD ($125) ]" << endl;
+    cout << " ---------------------------------------------------------------------------------" << endl;
+    int count = 0;
     for (Room* room : rooms) {
-        cout << left << setw(10) << room->getRoomNumber() 
-             << setw(25) << room->getType() 
-             << "$" << setw(9) << room->getRate();
-        
-        if (room->isOccupied()) {
-            cout << room->getGuestName();
-        } else {
-            cout << "[Empty]";
+        if (room->getRoomNumber() >= 101 && room->getRoomNumber() <= 170) {
+            string status = room->isOccupied() ? room->getGuestName() : ".";
+            if (status.length() > 9) status = status.substr(0, 8) + ".";
+            
+            cout << " " << setw(3) << room->getRoomNumber() << ": " << left << setw(10) << status;
+            count++;
+            if (count % 5 == 0) cout << endl;
         }
-        cout << endl;
     }
+    if (count % 5 != 0) cout << endl;
+
+    // 2. Standard Scenic (201-235)
+    cout << "\n [ STANDARD SCENIC ($145) ]" << endl;
+    cout << " ---------------------------------------------------------------------------------" << endl;
+    count = 0;
+    for (Room* room : rooms) {
+        if (room->getRoomNumber() >= 201 && room->getRoomNumber() <= 235) {
+            string status = room->isOccupied() ? room->getGuestName() : ".";
+            if (status.length() > 9) status = status.substr(0, 8) + ".";
+            
+            cout << " " << setw(3) << room->getRoomNumber() << ": " << left << setw(10) << status;
+            count++;
+            if (count % 5 == 0) cout << endl;
+        }
+    }
+    if (count % 5 != 0) cout << endl;
+
+    // 3. Deluxe Suite (236-250)
+    cout << "\n [ DELUXE SUITE ($350) ]" << endl;
+    cout << " ---------------------------------------------------------------------------------" << endl;
+    count = 0;
+    for (Room* room : rooms) {
+        if (room->getRoomNumber() >= 236 && room->getRoomNumber() <= 250) {
+            string status = room->isOccupied() ? room->getGuestName() : ".";
+            if (status.length() > 9) status = status.substr(0, 8) + ".";
+            
+            cout << " " << setw(3) << room->getRoomNumber() << ": " << left << setw(10) << status;
+            count++;
+            if (count % 5 == 0) cout << endl;
+        }
+    }
+    if (count % 5 != 0) cout << endl;
+
+    // 4. Penthouse (301-302)
+    cout << "\n [ PENTHOUSE ($1135) ]" << endl;
+    cout << " ---------------------------------------------------------------------------------" << endl;
+    count = 0;
+    for (Room* room : rooms) {
+        if (room->getRoomNumber() >= 301 && room->getRoomNumber() <= 302) {
+            string status = room->isOccupied() ? room->getGuestName() : ".";
+            
+            cout << " " << setw(3) << room->getRoomNumber() << ": " << left << setw(15) << status;
+            count++;
+        }
+    }
+    cout << endl;
+    cout << "==================================================================================" << endl;
+    cout << " Key: '.' = Available, [Name] = Occupied" << endl;
 }
 
 void HotelInventory::displaySummary() {
@@ -183,7 +237,15 @@ void HotelInventory::displaySummary() {
         }
     }
     
-    cout << "\nDaily Summary for " << currentDate << endl;
-    cout << "Occupied Rooms: " << occupied << " / " << rooms.size() << endl;
-    cout << "Total Revenue: $" << fixed << setprecision(2) << revenue << endl;
+    cout << "\n========================================" << endl;
+    cout << "       DAILY FINANCIAL REPORT           " << endl;
+    cout << "========================================" << endl;
+    cout << " Date:           " << currentDate << endl;
+    cout << "----------------------------------------" << endl;
+    cout << " Total Rooms:    " << rooms.size() << endl;
+    cout << " Occupied:       " << occupied << " (" << fixed << setprecision(1) << (occupied * 100.0 / rooms.size()) << "%)" << endl;
+    cout << " Available:      " << (rooms.size() - occupied) << endl;
+    cout << "----------------------------------------" << endl;
+    cout << " Total Revenue:  $" << fixed << setprecision(2) << revenue << endl;
+    cout << "========================================" << endl;
 }

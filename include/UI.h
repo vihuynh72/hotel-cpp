@@ -3,7 +3,7 @@
 
 #include <string>
 
-void displayMenu();
+void displayMenu(std::string date);
 int readIntInput();
 std::string readStringInput();
 
